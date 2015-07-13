@@ -8,6 +8,7 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8081, host: 8081
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.memory = "8192"
@@ -21,9 +22,9 @@ Vagrant.configure(2) do |config|
     wget http://apache.spinellicreations.com/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
     sudo tar -zxf apache-maven-3.3.3-bin.tar.gz -C /opt/
     export PATH=/opt/apache-maven-3.3.3/bin:$PATH
-    cd /vagrant
-    git clone https://github.com/apache/incubator-zeppelin.git
-    cd /vagrant/incubator-zeppelin
+    mkdir ~/node_modules_zeppelin
+    cd /vagrant/incubator-zeppelin/zeppelin-web
+    ln -s ~/node_modules_zeppelin node_modules
     mvn clean package -Pspark-1.4 -Dhadoop.version=2.2.0 -Phadoop-2.2 -DskipTests
   SHELL
 end
